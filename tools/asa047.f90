@@ -162,11 +162,11 @@ subroutine nelmin ( fn, n, xlb, xub, start, xmin, ynewlo, reqmin, step, konvge, 
         stop 'erro - bound start ub'
      end if
      if(xmin(j).lt.xlb(j)) then
-        print*,xmin
+        print*,xmin(j),xlb(j)
         stop 'erro - bound xmin lb'
      end if
      if(xmin(j).gt.xub(j))then
-        print*,xmin
+        print*,xmin(j),xub(j)
         stop 'erro - bound xmin ub'
      end if
   end do

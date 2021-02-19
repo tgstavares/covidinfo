@@ -1,5 +1,7 @@
 *.o
 *.mod
+*.pdf
+*.txt
 
 *.eps
 
@@ -18,3 +20,13 @@ montecarlo
 estimates_epsilons
 montecarlo_par
 montecarlo_initcond
+markovsimul
+smm_estimation
+cal_estimation
+elasticities
+policies
+euler
+irfs
+aggirfs
+stats
+main2

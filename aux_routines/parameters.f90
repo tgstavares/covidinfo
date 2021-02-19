@@ -28,7 +28,7 @@ module parameters
        !initinf  = 0.00001d0, &
        initinf  = 0.00001d0, &
 
-       theta    = 0.05d0, &
+       theta    = 0.1d0, &
        gamma    = 0.166667d0, &
        popfact  = 120d6
 
