@@ -3,8 +3,8 @@ module globals
 
   ! model variables
   type model
-     real(dp) n_bar,n_bari,vi,vr,vc
-     real(dp), allocatable, dimension(:)::vs,ns,ppi,ppi_tilde,ms,mi,mr,mc,md,nc,ppif
+     real(dp) n_bar,vi,vr
+     real(dp), allocatable, dimension(:)::vs,ns,ms,mi,mr,md,ppi,ppif
      integer iter
   end type model
 

@@ -3,34 +3,20 @@ module parameters
 
   ! Grids
   integer, parameter:: &
-       tt = 5001, &
-       tl1= 0, &
-       tl2= 6, &
-       tl3= 9, &
-       tl4= 15
+       tt    = 500, &
+       tvacc = 450
   
   ! Parameters
   real(dp), parameter:: &       
        lambda_p	= 1.77d0, &
-       lambda_pp= 1.77d0, &
-
-       !b      	= 7.4d0, & !3.5
-       b      	= 7.4d0, & !3.5
-       
-       !beta     = 0.98**(1d0/365d0), & !0.95
-       beta     = 0.98**(1d0/365d0), & !0.95
-       
-       delta    = 0.008d0, &
-       
-       !ppi_0    = 2.353d0, &
-       ppi_0    = 2.353d0, &
-
-       !initinf  = 0.00001d0, &
+       lf_sick  = 0.5d0, &
+       b      	= 5.4d0, &
+       beta     = 0.98**(1d0/365d0), &
+       delta    = 0.004d0, &
+       ppi_0    = 5.70d0, &
        initinf  = 0.00001d0, &
-
-       theta    = 0.1d0, &
        gamma    = 0.166667d0, &
-       popfact  = 120d6
+       pop      = 120d6
 
   ! Control parameters - small and large numbers
   real(dp), parameter:: &
