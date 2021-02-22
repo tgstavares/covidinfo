@@ -1,6 +1,6 @@
 CC =gfortran
 CFLAGS = -O3 -fno-range-check -ffree-line-length-none -w -fopenmp
-LFLAGS = /usr/local/lib/liblapack.a /usr/local/lib/libblas.a /usr/local/lib/libnlopt.a
+LFLAGS = #/usr/local/lib/liblapack.a /usr/local/lib/libblas.a /usr/local/lib/libnlopt.a
 INCLUDES = -I/usr/local/include/
 
 SRS1 = tools/prec.f90 \

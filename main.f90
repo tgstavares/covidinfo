@@ -18,7 +18,6 @@ program main
        m%ppi(tt),m%ppif(tt), &
        m%ms(tt+1),m%mi(tt+1),m%mr(tt+1),m%md(tt+1))
 
-
   ! COMPUTE INVARIABLE VARIABLES AND VALUES
   m%n_bar = 1d0/(1d0+lambda_p)
   m%vr    = utility(m%n_bar) / (1d0 - beta)
@@ -37,9 +36,14 @@ program main
   diff = 1d0
   m%iter = 0
 
+  m%ms(1) = 1d0 - initinf
+  m%mi(1) = 1d0 - m%ms(1)
+  m%mr(1) = 0d0
+  m%md(1) = 0d0
+
   ! BELIEF ABOUT TRANSMISSABILITY
   ppi_belief = ppi_0
-
+  
   tp = 40
   m%ns(1:tp) = m%n_bar
 
