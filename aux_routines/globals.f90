@@ -3,11 +3,9 @@ module globals
 
   ! model variables
   type model
-     real(dp) n_bar,vi,vr
-     real(dp), allocatable, dimension(:)::vs,ns,ms,mi,mr,md,ppi,ppif
-     integer iter
+     real(dp) vi,vr
+     real(dp), allocatable, dimension(:)::vs,ns,nse,ms,mi,mr,md,ppi,mdr,mdf,delay
   end type model
 
-  integer tlag
   real*8 t1,t2
 end module globals
