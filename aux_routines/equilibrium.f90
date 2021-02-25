@@ -2,15 +2,15 @@ module equilibrium
   use prec; use parameters; use values
 contains
 
-  subroutine get_equil(tu,ppi_belief,ns,vs,ppi,ms,mi,mr,md,showoutput)
+  subroutine get_equil(tu,ppi_belief,ns,vs,ppi,ms,mi,mc,mr,md,showoutput)
     implicit none
     integer, intent(in)::tu
     real(dp), intent(in):: ppi_belief
     real(dp), intent(inout):: ns(tt),vs(tt),ppi(tt)
-    real(dp), intent(out):: ms(tt+1),mi(tt+1),mr(tt+1),md(tt+1)
+    real(dp), intent(out):: ms(tt+1),mi(tt+1),mc(tt+1),mr(tt+1),md(tt+1)
     character(len=1), intent(in), optional::showoutput
     integer flag_showoutput,iter,t
-    real(dp) diff,vr,vi,vacc,aux,v1,v0,n0,ppit0,ppif(tt)
+    real(dp) diff,vr,vc,vi,vacc,aux,v1,v0,n0,ppit0,ppif(tt)
 
     flag_showoutput = 1
     if(present(showoutput))then
@@ -18,8 +18,9 @@ contains
     end if
 
     ! COMPUTE INVARIABLE VARIABLES AND VALUES
-    vr    = utility(n_bar) / (1d0 - beta)
-    vi    = (utility(n_bar*lf_sick) + beta*gamma*(1d0-delta)*vr) / (1d0 - beta*(1d0-gamma))
+    vr = utility(n_bar) / (1d0 - beta)
+    vc =(utility(n_bar*lf_sick) + beta*theta*(1d0-delta)*vr) / (1d0 - beta*(1d0-theta))
+    vi =(utility(n_bar*lf_sick) + beta*gamma*vc) / (1d0 - beta*(1d0-gamma))
     
     diff = 1d0
     iter = 0
@@ -60,7 +61,7 @@ contains
        end do
        
        ! COMPUTE TRANSITIONS
-       call update_masses(tu,tt,ppi_belief,ns(1:tt),ppif(1:tt),ms(1:tt+1),mi(1:tt+1),mr(1:tt+1),md(1:tt+1))
+       call update_masses(tu,tt,ppi_belief,ns,ppif,ms,mi,mc,mr,md)
 
        ! criterium
        diff = maxval(abs(ppi-ppif))
@@ -75,13 +76,14 @@ contains
     end do
   end subroutine get_equil
 
-  subroutine update_masses(tb,tu,ppi_belief,ns,ppif,ms,mi,mr,md)
+  subroutine update_masses(tb,tu,ppi_belief,ns,ppif,ms,mi,mc,mr,md)
     implicit none
     integer, intent(in)::tb,tu
     real(dp), intent(in)::ppi_belief,ns(tt)
-    real(dp), intent(inout)::ppif(tt),ms(tt+1),mi(tt+1),mr(tt+1),md(tt+1)
+    real(dp), intent(inout)::ppif(tt),ms(tt+1),mi(tt+1),mc(tt+1),mr(tt+1),md(tt+1)
     integer t
-    real(dp) vacc    
+    real(dp) vacc
+        
     do t=tb,tu
        if(t.ge.tvacc) then
           vacc = (1d0-1d0/dble(t-tvacc+1)) * 0d0
@@ -91,10 +93,14 @@ contains
        ppif(t) = 1d0 - exp(-ppi_belief*mi(t)*n_bar*lf_sick*vacc)       
        ! UPDATE MASSES
        ms(t+1) = ms(t) * (1d0 - ns(t) * ppif(t))
-       mi(t+1) = mi(t) * (1d0 - gamma) + ms(t) * ns(t) * ppif(t)
-       mr(t+1) = mr(t) + mi(t) * gamma * (1d0 - delta)
-       md(t+1) = md(t) + mi(t) * gamma * delta
+       mi(t+1) = mi(t) - mi(t) * gamma + ms(t) * ns(t) * ppif(t)
+       mc(t+1) = mc(t) - mc(t) * theta + mi(t) * gamma
+       mr(t+1) = mr(t) + mc(t) * theta * (1d0 - delta)
+       md(t+1) = md(t) + mc(t) * theta * delta
     end do
+
+    !print*,tb,tu
+    
   end subroutine update_masses
 
   subroutine deaths_reported(tu,md,mdr_p,mdr,delay)
@@ -116,7 +122,7 @@ contains
     ! end if
 
     mdr = (1d0/dble(tlag)) * (md(tu) - md(max(tu-tlag,1))) + mdr_p
-    !mdr = md(max(tu-10,1))
+    !mdr = md(max(tu-tlag+1,1))
 
     
     delay = 0d0

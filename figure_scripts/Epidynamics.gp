@@ -1,6 +1,6 @@
 #set term postscript eps enhanced color round size 17cm,6cm #font 13
 #set output "figure_scripts/fig_sim_deaths.eps"
-set term dumb size 245,50
+set term dumb size 235,50
 
 dat1 = "data/Epi_nofrictions.txt"
 dat2 = "data/Epi_delays.txt"
@@ -23,7 +23,7 @@ set key b r Right
 plot dat1 index 0 u 1:4 w l lw 5 lc 'black' notitle "nofrictions", \
      dat2 index 0 u 1:4 w l lw 5 lc 'black' notitle "nofrictions"
 
-set xrange[2:399]
+set xrange[2:499]
 set title "daily deaths (days since begining of epidemic)"
 set key b r Right
 plot dat1 index 0 u 1:5 w l lw 5 lc 'black' notitle "nofrictions", \

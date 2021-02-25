@@ -4,8 +4,11 @@ module parameters
   ! Grids
   integer, parameter:: &
        tt    = 500, &
-       tvacc = 400, &
-       tlag  = 31, &
+       tvacc = 450, &
+       tlag  = 21, &
+       tscr  = 1250, &
+       tppi_0= 180, &
+       tppi_1= 240, &
        nvfi  = 800
   
   ! Parameters
@@ -13,13 +16,16 @@ module parameters
        lambda_p	= 1.77d0, &
        n_bar    = 1d0/(1d0+lambda_p), &
        lf_sick  = 0.5d0, &
-       b      	= 11.4d0, &
+       b      	= 9.4d0, &
        beta     = 0.98**(1d0/365d0), &
        delta    = 0.005d0, &
-       ppi_0    = 4.627d0, &
-       initinf  = 0.000001d0, &
+       theta    = 0.10d0, &
        gamma    = 0.166667d0, &
-       pop      = 120d6
+       ppi_0    = 4.627d0, &
+       initinf  = 0.000001d0, &       
+       pop      = 120d6, &
+
+       sppi_0   = 1.05d0
 
   ! Control parameters - small and large numbers
   real(dp), parameter:: &
