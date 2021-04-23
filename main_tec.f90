@@ -18,7 +18,7 @@ program main
   allocate(m%vs(tt),m%ppi_0(tt),m%ppi_b(tt),m%ppi(tt),m%ppie(tt),m%mdr(tt+1),m%mdf(tt+1),m%delay(tt+1))
   allocate(m%ms( tt+1),m%mi( tt+1),m%mc( tt+1),m%mr( tt+1),m%md( tt+1))
   allocate(m%mse(tt+1),m%mie(tt+1),m%mce(tt+1),m%mre(tt+1),m%mde(tt+1))
-  allocate(m%msb(tt+1),m%mib(tt+1),m%mcb(tt+1),m%mrb(tt+1),m%mdb(tt+1))
+  allocate(m%msb(tt+1),m%mib(tt+1),m%mcb(tt+1),m%mrb(tt+1),m%mdb(tt+1),m%delta(tt+1))
   allocate(m%ns(tt),m%nse(tt))
 
   ! COLLECT HISTOGRAM PROBABILITIES
@@ -29,6 +29,12 @@ program main
   close(1)
   do i=1,4
      pprob(:,i) = pprob(:,i) / sum(pprob(:,i))
+  end do
+
+  ! SEQUENCE FOR EVOLUTION OF DEATH RATE - EXPECTED BY AGENTS
+
+  do t=1,tt+1
+     m%delta(t) = delta + dble(t-1)*(((364d0-dble(tt+1)*0.5d0)/364d0-1d0)*delta)/dble(tt+1-1)
   end do
   
   ! INIT COND
@@ -55,8 +61,8 @@ program main
 
   ! SIMULATION WITH PERFECT INFO
   print*,"No friction model:"
-  call get_equil(1,ppi_0,m%ns,m%vs,m%ppi,m%ms,m%mi,m%mc,m%mr,m%md,showoutput='n')
-  call get_equil(tppi_0,ppi_0*sppi_0,m%ns,m%vs,m%ppi,m%ms,m%mi,m%mc,m%mr,m%md,showoutput='n')
+  call get_equil(1,ppi_0,m%delta,m%ns,m%vs,m%ppi,m%ms,m%mi,m%mc,m%mr,m%md,showoutput='n')
+  call get_equil(tppi_0,ppi_0*sppi_0,m%delta,m%ns,m%vs,m%ppi,m%ms,m%mi,m%mc,m%mr,m%md,showoutput='n')
   print*,""
   m%vr = utility(n_bar) / (1d0 - beta)
   m%vc = (utility(n_bar*lf_sick) + beta*theta*(1d0-delta)*m%vr) / (1d0 - beta*(1d0-theta))
@@ -73,11 +79,12 @@ program main
   print*,""
   open(1,file="data/Epi_nofrictions.txt",position="rewind")
   do t=2,tt
-     write(1,'(i15,10f20.10)')t,m%mi(t)*pop,m%ms(t),m%md(t)*pop,pop*(m%md(t)-m%md(t-1)),m%ppi(t),m%ns(t)/n_bar,m%nagg(t)/n_bar
+     write(1,'(i15,10f20.10)')t,m%mi(t)*pop,m%ms(t),m%md(t)*pop,pop*(m%md(t)-m%md(t-1)),m%ppi(t),m%ns(t)/n_bar,m%nagg(t)/n_bar,m%delta(t)
+     !if(t.lt.tvacc)print*,t,m%mr(t)/m%md(t),(1d0-m%delta(t-1))/m%delta(t-1)
   end do
   close(1)
 
-  ! SIMULATION WITH DELAYS
+  ! ! SIMULATION WITH DELAYS
 
   m%mse(1) = 1d0 - initinf
   m%mie(1) = 1d0 - m%mse(1)
@@ -92,7 +99,7 @@ program main
   m%mdb(1) = 0d0
 
   ppi_belief = m%ppi_0(1)
-  call get_equil(1,ppi_belief,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
+  call get_equil(1,ppi_belief,m%delta,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
   mdr_1 = m%mde(1)
 
   open(1,file="data/Epi_delays.txt",position="rewind")
@@ -106,11 +113,11 @@ program main
         ppi_curr = ppi_0*sppi_0
      end if
      ppi_belief = ppi_curr
-     call update_masses(t,t,ppi_curr,m%nse,m%ppie,m%mse,m%mie,m%mce,m%mre,m%mde)
+     call update_masses(t,t,ppi_curr,m%delta,m%nse,m%ppie,m%mse,m%mie,m%mce,m%mre,m%mde)
      call deaths_reported(61,pprob(:,istate),t,m%mde(1:t),mdr_1,m%mdr(t),m%delay(t))
      !if(t.eq.20) stop
      if(t.gt.3)then
-        call recov_masses(t-3,t,m%ppi_0(t-3:t),vvacc(t-3:t),m%mdr(t-3:t),m%nse(t-3:t-1),s0,i0,c0,r0)
+        call recov_masses(t-3,t,m%ppi_0(t-3:t),m%delta(t-3:t),vvacc(t-3:t),m%mdr(t-3:t),m%nse(t-3:t-1),s0,i0,c0,r0)
         m%msb(t) = s0
         m%mib(t) = i0
         m%mcb(t) = c0
@@ -118,7 +125,7 @@ program main
         m%mdb(t) = m%mdr(t)
         !print*,t
 
-        call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
+        call get_equil(t,ppi_curr,m%delta,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
         !call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%mse,m%mie,m%mce,m%mre,m%mde,showoutput='n')
 
         aux = 1d0
@@ -162,29 +169,4 @@ program main
   print*,''
   print*,'Program execution time: ',t2-t1
 
-  deallocate(m%vs,m%ppi_0,m%ppi_b,m%ppi,m%ppie,m%mdr,m%mdf,m%delay)
-  deallocate(m%ms,m%mi,m%mc,m%mr,m%md)
-  deallocate(m%mse,m%mie,m%mce,m%mre,m%mde)
-  deallocate(m%msb,m%mib,m%mcb,m%mrb,m%mdb)
-  deallocate(m%ns,m%nse)
-
-contains
-  real(dp) function ferror_deaths(ppiupdate)
-    implicit none
-    real(dp), intent(in)::ppiupdate
-    real(dp) mmd(1:tt+1)
-    mmd(1) = m%md(1)
-
-    call update_masses(max(t-tscr,1),t,ppiupdate,m%nse,m%ppi,m%msb,m%mib,m%mcb,m%mrb,mmd)
-
-    ! if(t.lt.tppi_0)then
-    !    call update_masses(1,t,ppiupdate,m%nse(1:t),m%ppi(1:t),m%ms(1:t+1),m%mi(1:t+1),m%mc(1:t+1),m%mr(1:t+1),mmd(1:t+1))
-    ! else
-    !    call update_masses(1,min(tppi_0,tt),ppi_i    ,m%nse(1:t),m%ppi(1:t),m%ms(1:t+1),m%mi(1:t+1),m%mc(1:t+1),m%mr(1:t+1),mmd(1:t+1))
-    !    call update_masses(tppi_0-tlag*2+1,t       ,ppiupdate,m%nse(1:t),m%ppi(1:t),m%ms(1:t+1),m%mi(1:t+1),m%mc(1:t+1),m%mr(1:t+1),mmd(1:t+1))
-    ! end if
-
-    ferror_deaths = (mmd(t)-m%mdr(t))
-    !print*,ppiupdate,ferror_deaths,mmd(t),m%mdr(t),t
-  end function ferror_deaths
 end program main

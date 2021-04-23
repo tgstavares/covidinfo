@@ -32,10 +32,26 @@ SA1 =	aux_routines/parameters.f90 \
 	aux_routines/values.f90 \
 	aux_routines/equilibrium.f90
 
+SA1_time = aux_routines/parameters_time.f90 \
+	   aux_routines/globals_time.f90 \
+	   aux_routines/values.f90 \
+	   aux_routines/equilibrium_time.f90
+
+SA1_tec = aux_routines/parameters_tec.f90 \
+	   aux_routines/globals_tec.f90 \
+	   aux_routines/values.f90 \
+	   aux_routines/equilibrium_tec.f90
+
 $(OBJ): $(SRS)
 	$(CC) $(CFLAGS) $(SRS) -c
 
 main: $(OBJ) $(SA1) main.f90
+	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
+
+main_time: $(OBJ) $(SA1_time) main_time.f90
+	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
+
+main_tec: $(OBJ) $(SA1_tec) main_tec.f90
 	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
 
 clean:

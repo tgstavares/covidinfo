@@ -22,7 +22,7 @@ module parameters
        theta    = 0.10d0, &
        gamma    = 0.166667d0, &
        ppi_0    = 5.11d0, &
-       initinf  = 0.000001d0, &       
+       initinf  = 0.000001d0, &
        pop      = 120d6, &
 
        sppi_0   = 1.3d0
