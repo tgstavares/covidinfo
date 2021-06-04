@@ -1,8 +1,8 @@
-## Description of programs and additional information for the paper *Information and Behavioral Responses during a Pandemic: Evidence from Delays in Covid-19 Death Reports*
+## Description of programs and additional information for the paper: *"Information and Behavioral Responses during a Pandemic: Evidence from Delays in Covid-19 Death Reports"*
 
 The main paper can be found in the root folder `~/` in pdf file `behavior_delays_short_june2021.pdf`. The authors are from [Emilio Gutierrez](https://www.emiliogutierrez.net), [Adrian Rubli](https://www.adrianrubli.com), and [Tiago Tavares](http://tgstavares.com/).
 
----
+------
 
 #### Equilibrium model in the root folder `~/`
 
