@@ -1,15 +1,16 @@
-## Description of programs for the `Covidinfo` project
+## Description of programs and additional information for the paper `Information and Behavioral Responses during a Pandemic: Evidence from Delays in Covid-19 Death Reports` from Emilio Gutierrez, Adrian Rubli, and Tiago Tavares
 
-#### Program `main.f90`
+The main paper can be found in the root folder `~/` in pdf file `behavior_delays_short_june2021.pdf`.
 
-Entry in the makefile is `main`. This is the main program of the code. Includes the baseline model and calibration which has to be set manually. The main routines in this program are from `equilibrium.f90` and `values.f90`. The later collects intermediate routines and the former runs an equilibrium. The program outputs statistics and time series simulations.
+#### Equilibrium model in the root folder `~/`
 
-The sources `main_time.f90` and `main_tec.f90` are variations of the the baseline model and have specific entries in the makefile. 
+Sources for baseline results in `main.f90`. The folder has a makefile that compiles sources for both the baseline and model extensions. Compilation was tested using GNU Fortran 10.2.0. After running the programs, all figures can be generated using the scripts from the folder
+`~/figure_scripts` Gnuplot 5.4 or later.
 
-#### Gnuplot scripts: inside folder `./figure_scripts`
+#### Replication epirical section on the survey in the folder `~/Correlations_and_survey/`
 
-Scripts to generate figures. `Epidynamics.gp` is for a time series of the epidemic; `Delaysdynamics.gp` is for time series related with delays; `Histograms_delays.gp` plots an histogram of delays from the data.
-
+The results of these sections were tested using Stata 14.1. The Stata do-file `analysis_treatments_may_2021.do` generates all the regression results and figures as shown in the paper. The data used in this results can be find in `survey_for_analysis.dta`. 
+In additional we also included the pdf file `survey_text.pdf` with all the survey text in English.
 
 
 
