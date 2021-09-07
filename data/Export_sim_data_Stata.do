@@ -1,5 +1,5 @@
 clear all
-global HOME "/Users/tgst/Dropbox/PhD_Economics/research/my_projects/3rd_year_project_3rd_year_project/007_CovidInfo/EqModel/data"
+global HOME "/Users/tgst/Dropbox/PhD_Economics/research/my_projects/3rd_year_project_3rd_year_project/007_CovidInfo/To_github/EqModel/data"
 cd $HOME
 
 * No delays
@@ -16,7 +16,7 @@ save Epi_nofrictions.dta, replace
 
 * No Delays
 clear all
-import delimited "Epi_delays_4.txt", delimiter(space, collapse) encoding(ISO-8859-1)
+import delimited "Epi_delays.txt", delimiter(space, collapse) encoding(ISO-8859-1)
 drop v1
 ren v2  t
 ren v3  Infected_pop

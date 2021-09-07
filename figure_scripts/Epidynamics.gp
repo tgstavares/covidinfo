@@ -11,7 +11,7 @@ set xtics in scale 0.00001
 set ytics in
 set xtics nomirror out
 set xtics 50
-set grid front
+#set grid front
 
 set xrange[10:249]
 set title "susceptible pop (days since t_{0})"

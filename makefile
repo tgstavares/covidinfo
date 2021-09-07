@@ -48,6 +48,9 @@ $(OBJ): $(SRS)
 main: $(OBJ) $(SA1) main.f90
 	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
 
+main_regressions: $(OBJ) $(SA1) main_regressions.f90
+	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
+
 main_time: $(OBJ) $(SA1_time) main_time.f90
 	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
 

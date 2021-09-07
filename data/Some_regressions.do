@@ -1,5 +1,5 @@
 clear all
-global HOME "/Users/tgst/Dropbox/PhD_Economics/research/my_projects/3rd_year_project_3rd_year_project/007_CovidInfo/EqModel/data"
+global HOME "/Users/tgst/Dropbox/PhD_Economics/research/my_projects/3rd_year_project_3rd_year_project/007_CovidInfo/To_github/EqModel/data"
 cd $HOME
 
 use Epi_delays.dta
@@ -46,3 +46,17 @@ reg logNew l3.logdr l3.logd l.lh if t<200 & t>20
 
 reg s.logsus l3.s.logdr l3.s.logd l.s.lh if t<200 & t>20
 reg s.logsus l3.s.logdiff_deaths if t<200 & t>20
+
+* More
+gen timew3 = floor(t/5)
+tab timew3 , gen(tt)
+reg f10.s10.Susceptible_share tt* l5.logdr l5.logd l5.s5.logd if t<150 & t >50
+
+gen lognsus = log(1-Susceptible_share)
+reg logdr l.logd l2.logd l3.logd l4.logd
+
+** More More - These seem to work!!
+reg s.lognsus tt* l.s.lognsus l2.Infected_share l2.InfectedBelief_share if t>60 & t<180
+reg f.s.lognsus l.s.lognsus l.logdr l.logd l.s.logd if t>30 & t<120
+reg f.s.lognsus l.s.lognsus l.logdr l.logd l.s.logd if t>90 & t<250
+reg f.s.lognsus l.s.lognsus l.logdr l.logd l.s.logd if t>30 & t<270

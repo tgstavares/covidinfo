@@ -9,7 +9,9 @@ module parameters
        tscr  = 0, &
        tppi_0= 1500, &
        tppi_1= 10001, &
-       nvfi  = 800
+       nvfi  = 800, &
+
+       s3    = 12503	! seed for random variable
   
   ! Parameters
   real(dp), parameter:: &       

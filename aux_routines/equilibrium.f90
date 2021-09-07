@@ -149,16 +149,16 @@ contains
     r0 = 1d0  - (s(0) + i(0) + c(0) + d(0))
   end subroutine recov_masses
   
-  subroutine deaths_reported(thist,pprob,tu,md,mdr_p,mdr,delay)
+  subroutine deaths_reported(rn,thist,pprob,tu,md,mdr_p,mdr,delay)
     implicit none
+    real(dp), intent(in)::rn
     integer, intent(in)::thist
     real(dp), intent(in)::pprob(thist)
     integer, intent(in)::tu
     real(dp), intent(in)::md(tu),mdr_p
     real(dp), intent(out)::mdr,delay
     integer j
-    real(dp) soma
-
+    real(dp) soma,unif_dist
 
     !print*,'------'
     soma = 0d0
@@ -168,7 +168,12 @@ contains
     end do    
     !print*,tu,soma,(1d0/dble(tlag)) * (md(tu) - md(max(tu-tlag,1)))
     !stop 'hey!!!'
-    mdr = mdr_p + soma
+    unif_dist = 0.94d0 + (1.06d0-0.94d0)*rn
+
+    mdr = mdr_p + soma!*unif_dist
+
+    
+    !print*,'holi',mdr,mdr_p,soma,unif_dist
 
     !mdr = (1d0/dble(tlag)) * (md(tu) - md(max(tu-tlag,1))) + mdr_p
 
