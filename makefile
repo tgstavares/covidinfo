@@ -42,7 +42,12 @@ SA1_tec = aux_routines/parameters_tec.f90 \
 	   aux_routines/values.f90 \
 	   aux_routines/equilibrium_tec.f90
 
-SA1_regressions =	aux_routines/parameters.f90 \
+SA1_regressions = aux_routines/parameters.f90 \
+	aux_routines/globals.f90 \
+	aux_routines/values.f90 \
+	aux_routines/equilibrium_regressions.f90
+
+SA1_sir = aux_routines/parameters_sir.f90 \
 	aux_routines/globals.f90 \
 	aux_routines/values.f90 \
 	aux_routines/equilibrium_regressions.f90
@@ -54,6 +59,9 @@ main: $(OBJ) $(SA1) main.f90
 	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
 
 main_regressions: $(OBJ) $(SA1_regressions) main_regressions.f90
+	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
+
+main_sir: $(OBJ) $(SA1_sir) main_sir.f90
 	$(CC) $^ -o main $(CFLAGS) $(LFLAGS) $(INCLUDES)
 
 main_time: $(OBJ) $(SA1_time) main_time.f90

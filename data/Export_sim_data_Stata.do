@@ -14,6 +14,7 @@ ren v7  TransmissibilityRisk
 ren v8  Hours_wrtSS
 save Epi_nofrictions.dta, replace
 
+
 * No Delays
 clear all
 import delimited "Epi_delays.txt", delimiter(space, collapse) encoding(ISO-8859-1)
@@ -33,8 +34,10 @@ ren v13 DeathsReported_pop
 ren v14 NewDeathsReported_pop
 save Epi_delays.dta, replace
 
+/*
 * Some figs
 twoway (line Deaths_pop t) (line DeathsReported_pop t) , name(f1)
 twoway (line NewDeaths_pop t) (line NewDeathsReported_pop t) , name(f2)
 twoway (line Infected_share t) (line InfectedBelief_share t) , name(f3)
 twoway (line Delay t), name(f4) // after the vaccine no precision on this measure
+*/

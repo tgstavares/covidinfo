@@ -18,7 +18,7 @@ program main
 
   t1 = omp_get_wtime()
 
-  coeff = 0.025d0
+  coeff = 0.04d0
   
   allocate(m%vs(tt),m%ppi_0(tt),m%ppi_b(tt),m%ppi(tt),m%ppie(tt),m%mdr(tt+1),m%mdrr(tt+1),m%mdf(tt+1),m%delay(tt+1),m%mrandom(tt+1))
   allocate(m%ms( tt+1),m%mi( tt+1),m%mc( tt+1),m%mr( tt+1),m%md( tt+1))
@@ -159,8 +159,8 @@ program main
         m%mdb(t) = m%mdrr(t)
         !print*,t
 
-        call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
-        !call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%mse,m%mie,m%mce,m%mre,m%mde,showoutput='n')
+        !call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%msb,m%mib,m%mcb,m%mrb,m%mdb,showoutput='n')
+        call get_equil(t,ppi_curr,m%nse,m%vs,m%ppi,m%mse,m%mie,m%mce,m%mre,m%mde,showoutput='n')
 
         aux = 1d0
      else

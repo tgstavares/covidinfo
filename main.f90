@@ -96,7 +96,7 @@ program main
   mdr_1 = m%mde(1)
 
   open(1,file="data/Epi_delays.txt",position="rewind")
-  istate = 1
+  istate = 4
   
   !write(*,'(a10,5a15)')'time','nse','mde','mdr'
   do t=1,tt
