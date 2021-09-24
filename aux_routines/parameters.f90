@@ -19,11 +19,13 @@ module parameters
        n_bar    = 1d0/(1d0+lambda_p), &
        lf_sick  = 0.5d0, &
        b      	= 6.5d0, &
+       !b      	= 30.5d0, &
        beta     = 0.98**(1d0/365d0), &
        delta    = 0.008d0, &
        theta    = 0.10d0, &
        gamma    = 0.166667d0, &
        ppi_0    = 5.11d0, &
+       !ppi_0    = 4.5d0, &
        initinf  = 0.000001d0, &       
        pop      = 120d6, &
 

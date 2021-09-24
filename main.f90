@@ -3,7 +3,7 @@ program main
   implicit none
 
   type(model) m
-  integer t,i,tb,tu,istate
+  integer t,i,tb,tu,istate,nnn
   real(dp) vacc,ppi_belief,ppi_curr,ppi_i,ppi_f,delay,mdr,mdr_1,aux
   real(dp) vvacc(tt),s0,i0,c0,r0
   real(dp) zero,machep,ttol,aaa,bbb
@@ -21,6 +21,7 @@ program main
   allocate(m%msb(tt+1),m%mib(tt+1),m%mcb(tt+1),m%mrb(tt+1),m%mdb(tt+1))
   allocate(m%ns(tt),m%nse(tt))
 
+  nnn = 500
   ! COLLECT HISTOGRAM PROBABILITIES
   open(1,file="Delays_mexico_states.csv",position="rewind")
   do i=1,61
@@ -64,9 +65,9 @@ program main
 
   m%nagg = m%ns(1:t)*m%ms(1:t) + n_bar*lf_sick*(m%mi(1:t) + m%mc(1:t)) + n_bar*m%mr(1:t)
 
-  write(*,'(12a15)')'pk inf','days pk','days pk dd','max dly dd','total dd(120)','total dd(500)','min hrs inf','min hrs agg','R0','mass ms','mass mi','welfare'
+  write(*,'(12a15)')'pk inf','days pk','days pk dd','max dly dd','total dd(120)','total dd(nnn)','min hrs inf','min hrs agg','R0','mass ms','mass mi','welfare'
   write(*,'(12f15.4)')maxval(m%mi)*100d0,dble(maxloc(m%mi)),dble(maxloc(m%md(2:tt)-m%md(1:tt-1))), &
-       maxval(m%md(2:tt)-m%md(1:tt-1))*pop,m%md(120)*pop,m%md(500)*pop,&
+       maxval(m%md(2:tt)-m%md(1:tt-1))*pop,m%md(120)*pop,m%md(nnn)*pop,&
        minval(m%ns)*100d0,minval(m%nagg(2:tt))*100d0, &
        ((m%ms(1)-m%ms(2))/m%mi(1))/gamma, &
        m%ms(1),m%mi(1),(m%ms(1)*m%vs(1)+m%mi(1)*m%vi)/m%vr
@@ -96,7 +97,7 @@ program main
   mdr_1 = m%mde(1)
 
   open(1,file="data/Epi_delays.txt",position="rewind")
-  istate = 4
+  istate = 1
   
   !write(*,'(a10,5a15)')'time','nse','mde','mdr'
   do t=1,tt
@@ -148,15 +149,15 @@ program main
 
   print*,"Delays model:"
   print*,""
-  write(*,'(12a15)')'pk inf','days pk','days pk dd','max dly dd','total dd(120)','total dd(500)','min hrs inf','min hrs agg','R0','mass ms','mass mi'
+  write(*,'(12a15)')'pk inf','days pk','days pk dd','max dly dd','total dd(120)','total dd(nnn)','min hrs inf','min hrs agg','R0','mass ms','mass mi'
   write(*,'(12f15.4)')maxval(m%mie)*100d0,dble(maxloc(m%mie)),dble(maxloc(m%mde(2:tt)-m%mde(1:tt-1))), &
-       maxval(m%mde(2:tt)-m%mde(1:tt-1))*pop,m%mde(120)*pop,m%mde(500)*pop,&
+       maxval(m%mde(2:tt)-m%mde(1:tt-1))*pop,m%mde(120)*pop,m%mde(nnn)*pop,&
        minval(m%nse)*100d0,minval(m%nagg(2:tt))*100d0, &
        ((m%mse(1)-m%mse(2))/m%mie(1))/gamma, &
        m%mse(1),m%mie(1)
   write(*,'(2a15,4f15.4)')'','', &
        dble(maxloc(m%mdr(2:tt)-m%mdr(1:tt-1))), &
-       maxval(m%mdr(2:tt)-m%mdr(1:tt-1))*pop,m%mdr(120)*pop,m%mdr(500)*pop
+       maxval(m%mdr(2:tt)-m%mdr(1:tt-1))*pop,m%mdr(120)*pop,m%mdr(nnn)*pop
 
   t2 = omp_get_wtime()
   print*,''

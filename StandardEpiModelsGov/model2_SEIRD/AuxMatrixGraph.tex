@@ -1,0 +1,81 @@
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Latex file automatically created by covid_fm.AuxMatrix
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+%% tickz stuff %%
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\tikzstyle{int}=[draw, fill=white!8, minimum size=2em]
+\tikzstyle{init} = [pin edge={to-,thin,black}]
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)]
+    \node (X) [draw, shape=circle, inner sep=0.5] {\strut #1};}
+
+%%%<
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%%>
+
+\begin{document}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}[node distance=2.5cm,auto,>=latex']
+
+
+\node [int] (S) {$S$};
+
+\node [int] (E) [right of = S] {$E$};
+\path[->] (S) edge node {} (E);
+
+\node [int] (I^A) [above right of = E] {$I^A$};
+\node [int] (I^S) [below right of = E] {$I^S$};
+\path[->] (E) edge node  {$1-f$} (I^A);
+\path[->] (E) edge node  {$f$} (I^S);
+
+\node [int] (R) [right of = I^A] {$R$};
+\path[->] (I^A) edge node {} (R);
+
+\node [int] (H^1) [above right of = I^S] {$H^1$};
+\node [int] (I^B) [below right of = I^S] {$I^B$};
+\path[->] (I^S) edge node  {$g$} (H^1);
+\path[->] (I^S) edge node  {$1-g$} (I^B);
+
+\node [int] (R) [right of = I^B] {$R$};
+\path[->] (I^B) edge node {} (R);
+
+\node [int] (U^1) [above right of = H^1] {$U^1$};
+\node [int] (H^2) [below right of = H^1] {$H^2$};
+\path[->] (H^1) edge node  {$h$} (U^1);
+\path[->] (H^1) edge node  {$1-h$} (H^2);
+
+\node [int] (R) [right of = H^2] {$R$};
+\path[->] (H^2) edge node {} (R);
+
+\node [int] (U^2) [right of = U^1] {$U^2$};
+\path[->] (U^1) edge node {} (U^2);
+
+\node [int] (D) [above right of = U^2] {$D$};
+\node [int] (H^3) [below right of = U^2] {$H^3$};
+\path[->] (U^2) edge node  {$i$} (D);
+\path[->] (U^2) edge node  {$1-i$} (H^3);
+
+\node [int] (R) [right of = H^3] {$R$};
+\path[->] (H^3) edge node {} (R);
+
+
+\end{tikzpicture}
+
+\end{document}
+
+
